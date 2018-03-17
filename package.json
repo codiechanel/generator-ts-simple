@@ -5,7 +5,9 @@
   "files": [
     "app"
   ],
-  "keywords": ["yeoman-generator"],
+  "keywords": [
+    "yeoman-generator"
+  ],
   "author": "Codie Chanel",
   "license": "ISC",
   "repository": "codiechanel/generator-ts-simple",

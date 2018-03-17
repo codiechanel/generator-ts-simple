@@ -1,10 +1,9 @@
 const generators = require('yeoman-generator')
-const Generator = require('yeoman-generator');
+
 const isBlank = s => s.match(/^\W*$/) !== null
 const containsWS = s => s.match(/\W/) !== null
 
-module.exports = class extends Generator {
-
+module.exports = generators.Base.extend({
   prompting() {
     this.log('Please ensure that you have typescript, typings, and webpack installed globally before continue.')
 
@@ -23,7 +22,7 @@ module.exports = class extends Generator {
       , message: 'Use Redux'
       , default: false }
     ]).then(answers => self.answers = answers)
-  }
+  },
   createPackageJson() {
     this.fs.writeJSON(
       this.destinationPath('package.json'),
@@ -32,7 +31,7 @@ module.exports = class extends Generator {
       , description: this.answers.description
       , scripts: { 'start': 'webpack-dev-server --inline' }}
     )
-  }
+  },
 //   installNpmLibs() {
 //     const reacts = ['react', 'react-dom']
 //     const additions = this.answers.use_redux? ['redux', 'react-redux'] : []
@@ -41,10 +40,10 @@ module.exports = class extends Generator {
 //     this.npmInstall(reacts.concat(additions).concat(webpacks).concat(mandatoryApps), { saveDev: true })
 //   },
   copyFiles() {
-    this.fs.copy( this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'))
-    this.fs.copy(this.templatePath('src/index.tsx'), this.destinationPath('src/index.tsx'))
-    this.fs.copy(this.templatePath('public/index.html'), this.destinationPath('public/index.html'))
-  }
+    this.copy('tsconfig.json', 'tsconfig.json')
+    this.copy('src/index.tsx', 'src/index.tsx')
+    this.copy('public/index.html', 'public/index.html')
+  },
 //   instal() {
 //     const reactTypes = ['dt~react', 'dt~react-dom']
 //     const reduxTypes_global = ['dt~redux']
@@ -58,5 +57,4 @@ module.exports = class extends Generator {
   end() {
     this.log('Run `npm start` to see the project works. Happy time!')
   }
-
-}
+})
