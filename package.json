@@ -8,6 +8,7 @@
   "keywords": ["yeoman-generator"],
   "author": "Codie Chanel",
   "license": "ISC",
+  "repository": "codiechanel/generator-ts-simple",
   "dependencies": {
     "yeoman-generator": "^2.0.3"
   }
