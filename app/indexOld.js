@@ -1,10 +1,16 @@
-const generators = require('yeoman-generator')
-
+// const generators = require('yeoman-generator')
+const Generator = require('yeoman-generator');
 const isBlank = s => s.match(/^\W*$/) !== null
 const containsWS = s => s.match(/\W/) !== null
+const chalk = require('chalk');
+const yosay = require('yosay');
 
-module.exports = generators.Base.extend({
+
+module.exports = class extends Generator {
+
+
   prompting() {
+
     this.log('Please ensure that you have typescript, typings, and webpack installed globally before continue.')
 
     const self = this
@@ -22,16 +28,36 @@ module.exports = generators.Base.extend({
       , message: 'Use Redux'
       , default: false }
     ]).then(answers => self.answers = answers)
-  },
-  createPackageJson() {
-    this.fs.writeJSON(
-      this.destinationPath('package.json'),
-      { name: this.answers.slug
-      , version: '1.0.0'
-      , description: this.answers.description
-      , scripts: { 'start': 'webpack-dev-server --inline' }}
-    )
-  },
+  }
+  // prompting() {
+  //   // Have Yeoman greet the user.
+  //   this.log(
+  //     yosay(`Welcome to the stunning ${chalk.red('generator-ts-simple-2')} generator!`)
+  //   );
+
+  //   const prompts = [
+  //     {
+  //       type: 'confirm',
+  //       name: 'someAnswer',
+  //       message: 'Would you like to enable this option?',
+  //       default: true
+  //     }
+  //   ];
+
+  //   return this.prompt(prompts).then(props => {
+  //     // To access props later use this.props.someAnswer;
+  //     this.props = props;
+  //   });
+  // }
+  // createPackageJson() {
+  //   this.fs.writeJSON(
+  //     this.destinationPath('package.json'),
+  //     { name: this.answers.slug
+  //     , version: '1.0.0'
+  //     , description: this.answers.description
+  //     , scripts: { 'start': 'webpack-dev-server --inline' }}
+  //   )
+  // }
 //   installNpmLibs() {
 //     const reacts = ['react', 'react-dom']
 //     const additions = this.answers.use_redux? ['redux', 'react-redux'] : []
@@ -39,11 +65,12 @@ module.exports = generators.Base.extend({
 //     const mandatoryApps = ['typescript', 'webpack']
 //     this.npmInstall(reacts.concat(additions).concat(webpacks).concat(mandatoryApps), { saveDev: true })
 //   },
-  copyFiles() {
-    this.copy('tsconfig.json', 'tsconfig.json')
-    this.copy('src/index.tsx', 'src/index.tsx')
-    this.copy('public/index.html', 'public/index.html')
-  },
+writing() {
+  // copyFiles() {
+    this.fs.copy( this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'))
+    this.fs.copy(this.templatePath('src/index.tsx'), this.destinationPath('src/index.tsx'))
+    this.fs.copy(this.templatePath('public/index.html'), this.destinationPath('public/index.html'))
+  }
 //   instal() {
 //     const reactTypes = ['dt~react', 'dt~react-dom']
 //     const reduxTypes_global = ['dt~redux']
@@ -57,4 +84,5 @@ module.exports = generators.Base.extend({
   end() {
     this.log('Run `npm start` to see the project works. Happy time!')
   }
-})
+
+}
